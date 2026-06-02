@@ -4,9 +4,13 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
+import android.Manifest
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.rostelcom.servicedesk.MainActivity
@@ -43,6 +47,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private fun showNotification(title: String, body: String) {
         val channelId = "service_requests"
+
+        // Создаем канал уведомлений для Android 8.0+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
@@ -52,6 +58,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             NotificationManagerCompat.from(this).createNotificationChannel(channel)
         }
 
+        // Intent для открытия приложения при нажатии на уведомление
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -59,6 +66,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             this, 0, intent, PendingIntent.FLAG_IMMUTABLE
         )
 
+        // Строим уведомление
         val notification = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle(title)
@@ -68,6 +76,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setAutoCancel(true)
             .build()
 
-        NotificationManagerCompat.from(this).notify(System.currentTimeMillis().toInt(), notification)
+        // Показываем уведомление с проверкой разрешений для Android 13+
+        try {
+            NotificationManagerCompat.from(this).notify(System.currentTimeMillis().toInt(), notification)
+        } catch (e: SecurityException) {
+            // Нет разрешения на показ уведомлений - просто игнорируем
+            Log.w("MyFirebaseMessagingService", "Нет разрешения на показ уведомлений: ${e.message}")
+        }
     }
 }

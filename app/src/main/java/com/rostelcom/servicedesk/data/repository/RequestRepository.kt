@@ -23,7 +23,7 @@ class RequestRepository(private val firestore: FirebaseFirestore) {
     }
 
     suspend fun updateStatus(requestId: String, newStatus: String) {
-        val updates = mutableMapOf<String, Any>(
+        val updates = mutableMapOf(  // <-- убрал <String, Any>
             "Status" to newStatus,
             "lastModified" to FieldValue.serverTimestamp()
         )

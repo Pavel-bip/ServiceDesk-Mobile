@@ -5,9 +5,13 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
+import android.Manifest
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.rostelcom.servicedesk.MainActivity
 
 object NotificationHelper {
@@ -41,6 +45,12 @@ object NotificationHelper {
             .setAutoCancel(true)
             .build()
 
-        NotificationManagerCompat.from(context).notify(200, notification)
+        // Показываем уведомление с проверкой разрешений
+        try {
+            NotificationManagerCompat.from(context).notify(200, notification)
+        } catch (e: SecurityException) {
+            // Нет разрешения на показ уведомлений - просто игнорируем
+            Log.w("NotificationHelper", "Нет разрешения на показ уведомлений: ${e.message}")
+        }
     }
 }

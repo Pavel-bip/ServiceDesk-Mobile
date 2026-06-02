@@ -41,7 +41,6 @@ class ReminderWorker(context: Context, params: WorkerParameters) : CoroutineWork
 
     companion object {
         fun schedule(context: Context) {
-            // Удаляем старые задания
             WorkManager.getInstance(context).cancelUniqueWork("reminder_work")
 
             val now = Calendar.getInstance()
