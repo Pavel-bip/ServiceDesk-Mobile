@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "759205841609",
+    "project_id": "pavel-90348",
+    "storage_bucket": "pavel-90348.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759205841609:android:38d58b0c0a5d685c68db18",
+        "android_client_info": {
+          "package_name": "com.rostelcom.servicedesk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACz3bANqLTPg4xcV_J3ZrlmiRdyyrGuho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
