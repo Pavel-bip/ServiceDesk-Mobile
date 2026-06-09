@@ -55,7 +55,6 @@ class MainViewModel(
     fun setStatusFilter(status: String) { _statusFilter.value = status }
     fun setTypeFilter(type: String) { _typeFilter.value = type }
     fun setPriorityFilter(priority: String) { _priorityFilter.value = priority }
-
     fun getFilteredRequests(): List<ServiceRequest> {
         var filtered = _requests.value
         if (_searchQuery.value.isNotBlank()) {
